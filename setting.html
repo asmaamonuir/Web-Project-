@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DashBoard - Settings</title>
+<link rel="stylesheet" href="web.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+<script>
+  if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+</script>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo"><i class="fa-solid fa-bolt"></i> Nexus</h2>   
+    <ul class="menu">
+      <li><a href="home.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="users.html"><i class="fa-solid fa-users"></i> Users</a></li>
+      <li><a href="product.html"><i class="fa-solid fa-box"></i> Products</a></li>
+      <li><a href="profile.html"><i class="fa-solid fa-user-astronaut"></i> Profile</a></li>
+      <li><a href="setting.html" class="active"><i class="fa-solid fa-gear"></i> Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Top -->
+    <div class="top">
+      <h2><i class="fa-solid fa-gear"></i> Core Settings</h2>
+      <ul class="icons">
+        <li class="fa-regular fa-bell" title="Notifications"></li>
+        <li class="fa-solid fa-moon theme-switch" onclick="dark()" title="Toggle Dark Mode"></li>
+      </ul>
+    </div>
+
+    <div class="page-desc">Configure your platform variables and appearance.</div>
+
+    <div class="box form-container" style="max-width: 600px; margin: 0;">
+      <p style="margin-bottom: 5px; font-weight: 700;">Account Identification:</p>
+      <input type="text" id="name" placeholder="Admin Identity">
+
+      <p style="margin-bottom: 5px; font-weight: 700;">Communication Node (Email):</p>
+      <input type="email" id="email" placeholder="node@nexus.com">
+
+      <p style="margin-bottom: 5px; font-weight: 700;">Security Key (Password):</p>
+      <input type="password" id="pass" placeholder="••••••••">
+
+      <div style="display: flex; gap: 15px; margin-top: 30px;">
+        <button onclick="save()"><i class="fa-solid fa-shield-halved"></i> Apply Changes</button>
+        <button onclick="dark()" style="background: rgba(255,255,255,0.1); color: var(--text-color); border: var(--glass-border);"><i class="fa-solid fa-moon"></i> System Theme Toggle</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+function dark() {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+
+function save(){
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  alert("Data Sync Successful: " + name + " | " + email);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DashBoard - Home</title>
+<link rel="stylesheet" href="web.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+<script>
+  if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+</script>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo"><i class="fa-solid fa-bolt"></i> Nexus</h2>   
+    <ul class="menu">
+      <li><a href="home.html" class="active"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="users.html"><i class="fa-solid fa-users"></i> Users</a></li>
+      <li><a href="product.html"><i class="fa-solid fa-box"></i> Products</a></li>
+      <li><a href="profile.html"><i class="fa-solid fa-user-astronaut"></i> Profile</a></li>
+      <li><a href="setting.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Top -->
+    <div class="top">
+      <h2>Welcome back, Admin 👋</h2>
+      <ul class="icons">
+        <li class="fa-regular fa-bell" title="Notifications"></li>
+        <li class="fa-solid fa-moon theme-switch" onclick="dark()" title="Toggle Dark Mode"></li>
+      </ul>
+    </div>
+
+    <div class="page-desc">Here is what is happening with your system today.</div>
+
+    <!-- Cards -->
+    <div class="cards">
+      <div class="card">
+        <div class="circle blue"><i class="fa-solid fa-users"></i></div>
+        <div><h3 class="counter" data-target="1200">1,200</h3><p>Users</p><span class="up"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span></div>
+      </div>
+      <div class="card">
+        <div class="circle green"><i class="fa-solid fa-cart-shopping"></i></div>
+        <div><h3 class="counter" data-target="530">530</h3><p>Sales</p><span class="up"><i class="fa-solid fa-arrow-trend-up"></i> +8%</span></div>
+      </div>
+      <div class="card">
+        <div class="circle orange"><i class="fa-solid fa-box"></i></div>
+        <div><h3 class="counter" data-target="320">320</h3><p>Orders</p><span class="down"><i class="fa-solid fa-arrow-trend-down"></i> -3%</span></div>
+      </div>
+      <div class="card">
+        <div class="circle purple"><i class="fa-solid fa-dollar-sign"></i></div>
+        <div><h3 class="counter" data-target="12500">$12,500</h3><p>Revenue</p><span class="up"><i class="fa-solid fa-arrow-trend-up"></i> +15%</span></div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="box">
+        <div class="box-head">
+          <h3>Sales Overview</h3>
+          <button style="padding: 8px 16px; font-size: 13px;">This Month <i class="fa-solid fa-calendar-days"></i></button>
+        </div>
+        <canvas id="chart"></canvas>
+      </div>
+
+      <div class="box">
+        <div class="box-head">
+          <h3>Recent Users</h3>
+          <button style="background:transparent; color:var(--text-muted); box-shadow:none;" onclick="window.location.href='users.html'">View All <i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <table>
+          <tr><th>Name</th><th>Email</th><th>Status</th><th></th></tr>
+          <tr><td class="user"><div class="avatar a">A</div> Ahmed Ali</td><td>ahmed@mail.com</td><td><span class="badge active">Active</span></td><td><i class="fa-solid fa-trash delete"></i></td></tr>
+          <tr><td class="user"><div class="avatar s">S</div> Sara Mohamed</td><td>sara@mail.com</td><td><span class="badge inactive">Inactive</span></td><td><i class="fa-solid fa-trash delete"></i></td></tr>
+          <tr><td class="user"><div class="avatar m">M</div> Mohamed Said</td><td>m@mail.com</td><td><span class="badge active">Active</span></td><td><i class="fa-solid fa-trash delete"></i></td></tr>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Chart Setup
+const ctx = document.getElementById('chart').getContext('2d');
+Chart.defaults.color = '#a0a5b5';
+Chart.defaults.font.family = 'Outfit';
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['01 May','05 May','10 May','15 May','20 May','25 May','30 May'],
+    datasets: [{
+      label: 'Sales',
+      data: [420,620,500,710,590,900,720],
+      borderColor: '#00f3ff',
+      backgroundColor: 'rgba(0, 243, 255, 0.15)',
+      borderWidth: 4,
+      tension: 0.4,
+      fill: true,
+      pointBackgroundColor: '#00f3ff',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointRadius: 5,
+      pointHoverRadius: 8
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins:{legend:{display:false}},
+    scales:{
+      y:{beginAtZero:true, grid: { color: 'rgba(255,255,255,0.05)' }},
+      x: {grid: { display: false }}
+    }
+  }
+});
+
+function dark() {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+</script>
+</body>
+</html>

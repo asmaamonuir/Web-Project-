@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DashBoard - Profile</title>
+<link rel="stylesheet" href="web.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+<script>
+  if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+</script>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo"><i class="fa-solid fa-bolt"></i> Nexus</h2>   
+    <ul class="menu">
+      <li><a href="home.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="users.html"><i class="fa-solid fa-users"></i> Users</a></li>
+      <li><a href="product.html"><i class="fa-solid fa-box"></i> Products</a></li>
+      <li><a href="profile.html" class="active"><i class="fa-solid fa-user-astronaut"></i> Profile</a></li>
+      <li><a href="setting.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Top -->
+    <div class="top">
+      <h2><i class="fa-solid fa-user-astronaut"></i> Commander Profile</h2>
+      <ul class="icons">
+        <li class="fa-regular fa-bell" title="Notifications"></li>
+        <li class="fa-solid fa-moon theme-switch" onclick="dark()" title="Toggle Dark Mode"></li>
+      </ul>
+    </div>
+
+    <div class="page-desc">Review your credentials and visual manifestation.</div>
+
+    <div class="profile-card">
+      <img src="https://ui-avatars.com/api/?name=Admin&background=00f3ff&color=fff&size=200" alt="Avatar">
+      
+      <div style="text-align: left; margin-top: 20px;">
+        <p style="margin-bottom: 5px; font-weight: 700;">Designation:</p>
+        <input type="text" id="name" placeholder="Commander Name">
+
+        <p style="margin-bottom: 5px; font-weight: 700;">Comms Channel:</p>
+        <input type="email" id="email" placeholder="commander@nexus.com">
+      </div>
+
+      <button onclick="save()" style="width: 100%; margin-top: 20px; justify-content: center; font-size: 18px; padding: 15px;"><i class="fa-solid fa-fingerprint"></i> Synchronize Identity</button>
+    </div>
+  </main>
+</div>
+
+<script>
+window.onload = function(){
+  var name = localStorage.getItem("name");
+  var email = localStorage.getItem("email");
+  if(name) document.getElementById("name").value = name;
+  if(email) document.getElementById("email").value = email;
+}
+
+function dark() {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+
+function save(){
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  localStorage.setItem("name", name);
+  localStorage.setItem("email", email);
+  alert("Identity Sync Complete ⚡");
+}
+</script>
+</body>
+</html>

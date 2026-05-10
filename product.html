@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DashBoard - Products</title>
+<link rel="stylesheet" href="web.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+<script>
+  if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+</script>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo"><i class="fa-solid fa-bolt"></i> Nexus</h2>   
+    <ul class="menu">
+      <li><a href="home.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="users.html"><i class="fa-solid fa-users"></i> Users</a></li>
+      <li><a href="product.html" class="active"><i class="fa-solid fa-box"></i> Products</a></li>
+      <li><a href="profile.html"><i class="fa-solid fa-user-astronaut"></i> Profile</a></li>
+      <li><a href="setting.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Top -->
+    <div class="top">
+      <h2><i class="fas fa-boxes"></i> Product Inventory</h2>
+      <ul class="icons">
+        <li class="fa-regular fa-bell" title="Notifications"></li>
+        <li class="fa-solid fa-moon theme-switch" onclick="dark()" title="Toggle Dark Mode"></li>
+      </ul>
+    </div>
+
+    <div class="page-desc">Track and modify your global inventory levels.</div>
+
+    <div class="form-container">
+      <div class="toolbar">
+        <input type="text" id="p-search" placeholder="Scan by product name..." onkeyup="filterProducts()" style="flex:1;">
+        <button onclick="toggleForm()"><i class="fas fa-plus"></i> Inject Item</button>
+      </div>
+
+      <div id="product-form" class="box" style="display:none; margin-bottom: 30px;">
+        <h3 style="margin-bottom: 20px;">New Asset Details</h3>
+        <input type="text" id="p-name" placeholder="Item Name">
+        <input type="text" id="p-price" placeholder="Value (e.g. 20)">
+        <input type="number" id="p-stock" placeholder="Stock Units">
+        <button onclick="addNewProduct()"><i class="fa-solid fa-check"></i> Register Asset</button>
+      </div>
+
+      <table id="p-table">
+        <tr><th>Product Name</th><th>Price</th><th>Stock Status</th><th>Actions</th></tr>
+        <tr><td><i class="fa-solid fa-mouse" style="color:var(--accent-color);"></i> Gaming Mouse</td><td>$45.00</td><td><span class="badge active">12 Units</span></td><td><i class="fa-solid fa-trash delete" onclick="deleteProduct(this)"></i></td></tr>
+        <tr><td><i class="fa-solid fa-keyboard" style="color:var(--accent-color);"></i> Mechanical Keyboard</td><td>$89.00</td><td><span class="badge inactive">5 Units</span></td><td><i class="fa-solid fa-trash delete" onclick="deleteProduct(this)"></i></td></tr>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script>
+function dark() {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+
+function toggleForm() {
+  var form = document.getElementById("product-form");
+  form.style.display = (form.style.display === "none") ? "block" : "none";
+}
+
+function addNewProduct() {
+  var name = document.getElementById("p-name").value;
+  var price = document.getElementById("p-price").value;
+  var stock = document.getElementById("p-stock").value;
+  if(!name || !price || !stock) return alert("System Error: Incomplete Data!");
+
+  var table = document.getElementById("p-table").getElementsByTagName('tbody')[0] || document.getElementById("p-table");
+  var row = table.insertRow();
+  var stockBadge = stock > 10 ? "<span class='badge active'>"+stock+" Units</span>" : "<span class='badge inactive'>"+stock+" Units</span>";
+
+  row.innerHTML = "<td><i class='fa-solid fa-box-open' style='color:var(--accent-color);'></i> "+name+"</td><td>$"+price+"</td><td>"+stockBadge+"</td><td><i class='fa-solid fa-trash delete' onclick='deleteProduct(this)'></i></td>";
+  
+  document.getElementById("p-name").value = ""; document.getElementById("p-price").value = ""; document.getElementById("p-stock").value = "";
+  toggleForm();
+}
+
+function deleteProduct(icon) {
+  if(confirm("Destroy this asset?")) icon.parentElement.parentElement.remove();
+}
+
+function filterProducts() {
+  var input = document.getElementById("p-search").value.toLowerCase();
+  var rows = document.getElementById("p-table").rows;
+  for (var i = 1; i < rows.length; i++) {
+      rows[i].style.display = rows[i].textContent.toLowerCase().includes(input) ? "" : "none";
+  }
+}
+</script>
+</body>
+</html>

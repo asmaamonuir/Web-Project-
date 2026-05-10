@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DashBoard - Users</title>
+<link rel="stylesheet" href="web.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+<script>
+  if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+</script>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2 class="logo"><i class="fa-solid fa-bolt"></i> Nexus</h2>   
+    <ul class="menu">
+      <li><a href="home.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="users.html" class="active"><i class="fa-solid fa-users"></i> Users</a></li>
+      <li><a href="product.html"><i class="fa-solid fa-box"></i> Products</a></li>
+      <li><a href="profile.html"><i class="fa-solid fa-user-astronaut"></i> Profile</a></li>
+      <li><a href="setting.html"><i class="fa-solid fa-gear"></i> Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Top -->
+    <div class="top">
+      <h2><i class="fa-solid fa-users"></i> User Database</h2>
+      <ul class="icons">
+        <li class="fa-regular fa-bell" title="Notifications"></li>
+        <li class="fa-solid fa-moon theme-switch" onclick="dark()" title="Toggle Dark Mode"></li>
+      </ul>
+    </div>
+
+    <div class="page-desc">Manage your platform members securely.</div>
+
+    <div class="form-container">
+      <div class="toolbar">
+        <input type="text" id="search" placeholder="Search by name..." onkeyup="searchUser()" style="flex:1;">
+        <button onclick="showForm()"><i class="fa-solid fa-user-plus"></i> Add User</button>
+      </div>
+
+      <div id="form" class="box" style="display:none; margin-bottom: 30px;">
+        <h3 style="margin-bottom: 20px;">Initialize New User</h3>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="email" id="email" placeholder="Email Address">
+        <button onclick="addUser()"><i class="fa-solid fa-satellite-dish"></i> Transmit Data</button>
+      </div>
+
+      <table>
+        <tr><th>Name</th><th>Email</th><th>Action</th></tr>
+        <tr><td class="user"><div class="avatar a">A</div> Ahmed</td><td>ahmed@mail.com</td><td><i class="fa-solid fa-trash delete" onclick="deleteRow(this)"></i></td></tr>
+        <tr><td class="user"><div class="avatar s">A</div> Asmaa</td><td>asmaa@mail.com</td><td><i class="fa-solid fa-trash delete" onclick="deleteRow(this)"></i></td></tr>
+        <tr><td class="user"><div class="avatar m">M</div> Mena</td><td>mena@mail.com</td><td><i class="fa-solid fa-trash delete" onclick="deleteRow(this)"></i></td></tr>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script>
+function dark() {
+  document.body.classList.toggle('dark-mode');
+  localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+
+function showForm() {
+  var form = document.getElementById("form");
+  form.style.display = (form.style.display === "none") ? "block" : "none";
+}
+
+function addUser() {
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  if(!name || !email) return alert("System Error: Incomplete Data!");
+
+  var table = document.getElementById("table") ? document.getElementById("table").getElementsByTagName('tbody')[0] : document.querySelector("table tbody") || document.querySelector("table");
+  var row = table.insertRow();
+  var initial = name.charAt(0).toUpperCase();
+
+  row.innerHTML = "<td class='user'><div class='avatar m'>"+initial+"</div>"+name+"</td><td>"+email+"</td><td><i class='fa-solid fa-trash delete' onclick='deleteRow(this)'></i></td>";
+  document.getElementById("name").value = "";
+  document.getElementById("email").value = "";
+  showForm();
+}
+
+function deleteRow(icon) {
+  if(confirm("Eradicate this user?")) icon.parentElement.parentElement.remove();
+}
+
+function searchUser() {
+  var input = document.getElementById("search").value.toLowerCase();
+  var rows = document.querySelector("table").rows;
+  for(var i=1;i<rows.length;i++){
+    rows[i].style.display = rows[i].innerText.toLowerCase().includes(input) ? "" : "none";
+  }
+}
+</script>
+</body>
+</html>
